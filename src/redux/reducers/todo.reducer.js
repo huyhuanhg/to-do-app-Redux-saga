@@ -1,55 +1,42 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { createProductAction } from '../actions';
+import {TO_DO_ACTION} from '../constants';
+import {createReducer} from "@reduxjs/toolkit";
 
-const initialState = {
-  taskList: [],
-}
+const initialState = {taskList: []};
 
-const todoSlice = createSlice({
-  name: 'todo',
-  initialState,
-  reducers: {
-    createTaskAction: (state, action) => {
-      return {
-        ...state,
-        taskList: [
-          action.payload,
-          ...state.taskList,
-        ],
-      }
-    },
-    editTaskAction: (state, action) => {
-      const { id } = action.payload;
-      const newTaskList = [...state.taskList];
-      const productIndex = newTaskList.findIndex((product) => product.id === id);
-      newTaskList.splice(productIndex, 1, action.payload);
-      return {
-        ...state,
-        taskList: newTaskList,
-      };
-    },
-    deleteTaskAction: (state, action) => {
-      const { id } = action.payload;
-      const newTaskList = [...state.taskList];
-      const productIndex = newTaskList.findIndex((product) => product.id === id);
-      newTaskList.splice(productIndex, 1);
-      return {
-        ...state,
-        taskList: newTaskList,
-      };
-    },
-  },
-  extraReducers: {
-    [createProductAction]: (state, action) => {
-      console.log('Mới create product xong');
+const todoReducer = createReducer(initialState, {
+  [TO_DO_ACTION.GET_TASK_SUCCESS]: (state, {payload})=>{
+    return {
+      ...state,
+      taskList: [...payload],
     }
-  }
+  },
+  [TO_DO_ACTION.CREATE_TASK_SUCCESS]: (state, {payload}) => {
+    return {
+      ...state,
+      taskList: [
+          ...state.taskList,
+          payload
+      ]
+    }
+  },
+  [TO_DO_ACTION.EDIT_TASK_SUCCESS]: (state, {payload}) => {
+    let tasks = [...state.taskList];
+    let taskIndex = tasks.findIndex(task => task.id === payload.id);
+    tasks.splice(taskIndex, 1, payload);
+    return {
+      ...state,
+      taskList: tasks
+    };
+  },
+  [TO_DO_ACTION.DELETE_TASK_SUCCESS]: (state, {payload}) => {
+    let tasks = [...state.taskList];
+    let taskIndex = tasks.findIndex(task => task.id === payload.id);
+    tasks.splice(taskIndex, 1);
+    return {
+      ...state,
+      taskList: tasks
+    };
+  },
 });
 
-export const {
-  createTaskAction,
-  editTaskAction,
-  deleteTaskAction,
-} = todoSlice.actions
-
-export default todoSlice.reducer;
+export default todoReducer;

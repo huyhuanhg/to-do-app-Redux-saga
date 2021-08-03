@@ -1,15 +1,16 @@
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Row, Input, Button, Card, Form } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
-import { v4 as uuidv4 } from 'uuid';
 import Item from './components/Item';
-
+//
 import {
+  getTaskAction,
   createTaskAction,
   editTaskAction,
   deleteTaskAction,
-} from '../../../redux/reducers/todo.reducer';
+
+} from '../../../redux/actions/todo.action';
 
 function ToDoListPage() {
   const [searchKey, setSearchKey] = useState('');
@@ -17,6 +18,10 @@ function ToDoListPage() {
   const { taskList } = useSelector((state) => state.todoReducer);
 
   const dispatch = useDispatch();
+
+  useEffect(()=>{
+    dispatch(getTaskAction())
+  }, []);
 
   const filterTaskList = taskList.filter((task) => {
     return task.title.toLowerCase().indexOf(searchKey.toLowerCase()) !== -1
@@ -26,7 +31,6 @@ function ToDoListPage() {
 
   function handleAddTask(values) {
     dispatch(createTaskAction({
-      id: uuidv4(),
       ...values,
     }))
     addTaskForm.resetFields();

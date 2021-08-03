@@ -1,4 +1,5 @@
-import { USER_ACTION } from '../constants';
+import {PRODUCT_ACTION, USER_ACTION} from '../constants';
+import {createReducer} from "@reduxjs/toolkit";
 
 const initialState = {
   userList: [
@@ -18,32 +19,28 @@ const initialState = {
   userInfo: {},
 }
 
-function userReducer(state = initialState, action) {
-  switch (action.type) {
-    case USER_ACTION.LOGIN: {
-      return {
-        ...state,
-        userInfo: action.payload,
-      };
-    }
-    case USER_ACTION.LOGOUT: {
-      return {
-        ...state,
-        userInfo: {},
-      };
-    }
-    case USER_ACTION.REGISTER: {
-      return {
-        ...state,
-        userList: [
-          ...state.userList,
-          action.payload,
-        ]
-      };
-    }
-    default:
-      return state;
-  }
-}
+const userReducer = createReducer(initialState, {
+  [USER_ACTION.LOGIN]: (state, {payload}) => {
+    return {
+      ...state,
+      userInfo: payload,
+    };
+  },
+  [USER_ACTION.LOGOUT]: (state) => {
+    return {
+      ...state,
+      userInfo: {},
+    };
+  },
+  [USER_ACTION.REGISTER]: (state, {payload}) => {
+    return {
+      userInfo: {},
+      userList: [
+        ...state.userList,
+        payload,
+      ]
+    };
+  },
+});
 
 export default userReducer;

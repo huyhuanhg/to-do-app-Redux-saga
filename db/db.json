@@ -63,7 +63,13 @@
       "price": 5000000
     }
   ],
-  "todos": [],
+  "todos": [
+    {
+      "id": 1,
+      "title": "vvvv",
+      "description": "asdád"
+    }
+  ],
   "comments": [
     {
       "id": 1,

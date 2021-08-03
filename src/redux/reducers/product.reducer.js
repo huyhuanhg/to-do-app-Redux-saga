@@ -22,7 +22,7 @@ const productReducer = createReducer(initialState, {
       ],
     }
   },
-  [PRODUCT_ACTION.EDIT_PRODUCT]: (state, action) => {
+  [PRODUCT_ACTION.EDIT_PRODUCT_SUCCESS]: (state, action) => {
     const { id } = action.payload;
     const newProductList = [...state.productList];
     const productIndex = newProductList.findIndex((product) => product.id === id);
@@ -32,7 +32,7 @@ const productReducer = createReducer(initialState, {
       productList: newProductList,
     };
   },
-  [PRODUCT_ACTION.DELETE_PRODUCT]: (state, action) => {
+  [PRODUCT_ACTION.DELETE_PRODUCT_SUCCESS]: (state, action) => {
     const { id } = action.payload;
     const newProductList = [...state.productList];
     const productIndex = newProductList.findIndex((product) => product.id === id);

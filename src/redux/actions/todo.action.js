@@ -1,22 +1,8 @@
 import { TO_DO_ACTION } from '../constants';
 
-export const createTaskAction = (params) => {
-  return {
-    type: TO_DO_ACTION.CREATE_TASK,
-    payload: params,
-  };
-}
+import {createAction} from "@reduxjs/toolkit";
 
-export const editTaskAction = (params) => {
-  return {
-    type: TO_DO_ACTION.EDIT_TASK,
-    payload: params,
-  };
-}
-
-export const deleteTaskAction = (params) => {
-  return {
-    type: TO_DO_ACTION.DELETE_TASK,
-    payload: params,
-  };
-}
+export const getTaskAction = createAction(TO_DO_ACTION.GET_TASK);
+export const createTaskAction = createAction(TO_DO_ACTION.CREATE_TASK);
+export const editTaskAction = createAction(TO_DO_ACTION.EDIT_TASK);
+export const deleteTaskAction = createAction(TO_DO_ACTION.DELETE_TASK);
